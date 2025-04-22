@@ -5,7 +5,9 @@ CC = cc
 CFLAGS = -Werror -Wall -Wextra -fsanitize=address
 
 
-SRC = famine.c 
+SRC = famine.c \
+	  folder_iter.c \
+	  main.c
 
 OBJ = $(SRC:.c=.o)
 
