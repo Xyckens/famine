@@ -14,7 +14,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 	echo "./Famine created"
 
 clean:
