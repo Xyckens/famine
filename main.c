@@ -3,7 +3,6 @@
 int main()
 {
     //FILE *fp = fopen("binaries/test", "ab+");
-    //const char *string = "Famine version 1.0 (c)oded by fvieira-login2";
     //size_t len = strlen(string) + 1;
     /*if (!fp)
     {
