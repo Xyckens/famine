@@ -6,6 +6,7 @@
 # include <string.h>
 # include <dirent.h>
 # include <sys/stat.h>
+#include <sys/wait.h>
 # include <ctype.h>
 # include <stdbool.h>
 # include <fcntl.h>
@@ -16,7 +17,7 @@
 void    infect(FILE *fp, const char *string, size_t len);
 bool    check_infection(FILE *fp, const char *string, size_t len);
 bool    check_elf(FILE *fp);
-void    analyze_directory(const char *dirname);
+void    analyze_directory(const char *dirname, const char *string, size_t len);
 void    run_infection();
 
 #endif

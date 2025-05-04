@@ -42,6 +42,7 @@ bool    check_infection(FILE *fp, const char *string, size_t len)
 
 void    infect(FILE *fp, const char *string, size_t len)
 {
+    fseek(fp, 0, SEEK_END);
     fwrite(string, sizeof(char), len, fp);
     //printf("INFECT.\n");
 }
